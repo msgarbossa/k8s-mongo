@@ -264,21 +264,24 @@ Get pod name for use in the port forward command.
 
 ```
 $ kubectl get pods
-NAME                       READY   STATUS    RESTARTS   AGE
-mongo-1-85d577798b-69jpv   1/1     Running   0          22m
+NAME                      READY   STATUS    RESTARTS   AGE
+mongo-1-9c69844cf-fvd7v   1/1     Running   0          3m51s
 ```
 
 Forward local port 27017 to pod port 27017 (local-port:pod-port)
 
 ```
-$ kubectl port-forward pod/mongo-1-85d577798b-69jpv 27017:27017&
-[1] 31753
+$ kubectl port-forward pod/mongo-1-9c69844cf-fvd7v 27017:27017&
+[1] 1118645
 $ Forwarding from 127.0.0.1:27017 -> 27017
-Forwarding from [::1]:27017 -> 27017
 
 $ netstat -an | grep 27017
-tcp6       0      0  ::1.27017              *.*                    LISTEN
-tcp4       0      0  127.0.0.1.27017        *.*                    LISTEN
+tcp        0      0 127.0.0.1:27017         0.0.0.0:*               LISTEN
+
+$ curl http://localhost:27017
+Handling connection for 27017
+It looks like you are trying to access MongoDB over HTTP on the native driver port.
+
 $ fg
 kubectl port-forward pod/mongo-1-85d577798b-drbbn 27017:27017
 [Ctrl-C]
